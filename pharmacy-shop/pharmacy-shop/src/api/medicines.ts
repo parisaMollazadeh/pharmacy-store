@@ -15,9 +15,8 @@ export async function fetchMedicinesPage(page: number, limit: number): Promise<M
   }
   const medicines: Medicine[] = await res.json()
   
-  const totalCount = Number(res.headers.get('X-Total-Count') || medicines.length)
+  const totalCount =await fetchTotalMedicinesCount();
   const totalPages = Math.ceil(totalCount / limit)
-
   return { medicines, totalPages }
 }
 

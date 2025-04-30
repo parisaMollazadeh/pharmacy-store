@@ -21,7 +21,7 @@ const Page = ({ medicines, currentPage, totalPages }: Props) => {
 
   return (
     <AppLayout headerMode="menu">
-      <div className="pb-24 px-4">
+      <div className="pb-24 px-4 ">
         <div className="flex flex-col gap-4 mt-4">
           {medicines.map((medicine) => (
             <ProductCard key={medicine.id} medicine={medicine} onAdd={addToCart} />
@@ -31,12 +31,12 @@ const Page = ({ medicines, currentPage, totalPages }: Props) => {
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={(page) => router.push(`/page/${page}`)}
+          onPageChange={(page) => router.push(`/product-list/${page}`)}
         />
 
-        <div className="fixed bottom-4 right-0 left-0 px-4">
+        <div className="fixed bottom-4 right-0 left-0 px-8">
           <Link href="/cart">
-            <button className="w-full bg-primary text-white py-3 rounded-full text-sm shadow-md">
+            <button className="w-full bg-purple-700  text-white py-3 rounded-xl text-base shadow-md font-extrabold">
               تکمیل خرید
             </button>
           </Link>
