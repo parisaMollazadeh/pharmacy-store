@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import { useCart } from '@/context/CartContext'
-import Link from 'next/link'
 import ProductCard from '@/components/ProductCard'
 import { formatPrice } from '@/utils/price'
 import AppLayout from '@/layouts/AppLayout'
