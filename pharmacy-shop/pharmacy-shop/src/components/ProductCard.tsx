@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import { Medicine } from '@/types/medicine'
+import { formatPrice } from '@/utils/price'
 
 interface Props {
   medicine: Medicine
-  onAdd: (id: number) => void
+  onAdd?: (id: Medicine) => void
 }
 
 export default function ProductCard({ medicine, onAdd }: Props) {
@@ -22,16 +23,16 @@ export default function ProductCard({ medicine, onAdd }: Props) {
       
       <div className="flex flex-col items-center justify-center flex-1 text-sm font-semibold">
         <span>{medicine.name}</span>
-        <span className="text-gray-500 text-xs mt-1">{medicine.price.toLocaleString()} تومان</span>
+        <span className="text-gray-500 text-xs mt-1">{formatPrice(medicine.price)}</span>
       </div>
 
     
-      <button
-        onClick={() => onAdd(medicine.id)}
+      {onAdd && <button
+        onClick={() => onAdd(medicine)}
         className="text-sm text-purple-700 flex items-center whitespace-nowrap"
       >
         افزودن <span className="text-lg leading-none mr-1">+</span>
-      </button>
+      </button>}
     </div>
   )
 }
