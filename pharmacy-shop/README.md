@@ -1,40 +1,176 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 💊 Pharmacy Shop – Next.js / TypeScript / Tailwind
 
-## Getting Started
+## 🚀 Technologies
 
-First, run the development server:
+- **Next.js 15** (Page Router with ISR)
+- **React 19**
+- **TypeScript** with strict typing (no `any`)
+- **Tailwind CSS** (RTL support + professional custom theme)
+- **ESLint** (max 100 lines per file, strict rules)
+- **json-server** (mock API with pagination support)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── api/               # API logic abstraction
+├── components/        # UI components (ProductCard, Header, CartBadge...)
+├── context/           # Cart context provider (React context API)
+├── layouts/           # App layout with dynamic header
+├── pages/
+│   ├── index.tsx             # Redirect to /product-list/1
+│   ├── cart.tsx              # Cart page
+│   └── product-list/
+│       ├── [page].tsx        # Paginated product list
+│       └── index.tsx         # Redirect to first page
+├── styles/
+│   └── globals.css
+├── types/
+│   └── medicine.ts           # Type for Medicine
+├── utils/
+│   └── price.ts              # Format price utility
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## ✅ Implemented Features
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- Paginated medicine list (`/product-list/[page]`) using ISR
+- Shopping cart with full item info (name, price, image)
+- Cart context with add/remove/clear/getTotalPrice methods
+- Responsive and modular UI components
+- Fixed dynamic header (`menu` or `back`) with shadow
+- Clean UI layout with IRANSans font and custom Tailwind theme
+- Redirect logic for `/` and `/product-list` to default page
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔧 Mock API with json-server
 
-## Learn More
+Install:
+```bash
+npm install --save-dev json-server
+```
 
-To learn more about Next.js, take a look at the following resources:
+Run:
+```bash
+npx json-server --watch db.json --port 3001
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+Test:
+```bash
+curl -H "Accept: application/json" http://localhost:3001/medicines?_page=2&_limit=4
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Make sure `X-Total-Count` is included in the response header.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔄 Git Flow
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+### Main Branches:
+- `main`: production-ready code
+- `develop`: development base branch
+
+### Feature Branch:
+```bash
+git checkout -b feature/your-feature-name
+# work, commit, and merge into develop
+```
+
+### Bugfix Branch:
+```bash
+git checkout -b bugfix/your-bug-name
+# fix, commit, and merge into develop
+```
+
+### Release:
+```bash
+git checkout main
+git merge develop
+git tag -a v1.0.0 -m "Initial release"
+```
+
+---
+
+## 🧪 ESLint Rules
+
+- Max 100 lines per file
+- No use of `any`
+- Enforce SOLID principles
+
+---
+
+## 📜 Script Commands
+
+```json
+"scripts": {
+  "dev": "next dev --turbopack",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+  "serve": "json-server --watch db.json --port 3001"
+}
+```
+
+### 💻 Dev Server
+```bash
+npm run dev
+```
+
+### 🏗️ Build for Production
+```bash
+npm run build
+```
+
+### 🚀 Start Production Server
+```bash
+npm run start
+```
+
+### 🔍 Lint Check
+```bash
+npm run lint
+```
+
+### 🧪 Run Mock API
+```bash
+npm run serve
+```
+
+---
+
+## ▶️ Getting Started
+
+Follow these steps to run the project locally:
+
+1. **Clone the repo**
+```bash
+git clone https://github.com/your-username/pharmacy-shop.git
+cd pharmacy-shop
+```
+
+2. **Install dependencies**
+```bash
+npm install
+```
+
+3. **Run mock API** (in a separate terminal tab)
+```bash
+npm run serve
+```
+
+4. **Run development server**
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` to access the app.
+
+---
+
+## 👨‍💻 Developed by
+
+Parisa Mollazadeh – Frontend Developer :)
