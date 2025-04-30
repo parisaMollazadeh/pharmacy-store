@@ -9,22 +9,32 @@ export interface MedicinesPage {
 
 
 export async function fetchMedicinesPage(page: number, limit: number): Promise<MedicinesPage> {
-  const res = await fetch(`${API_BASE_URL}/medicines?_page=${page}&_limit=${limit}`)
-  if (!res.ok) {
-    throw new Error('Failed to fetch medicines')
-  }
-  const medicines: Medicine[] = await res.json()
+  try{
+    const res = await fetch(`${API_BASE_URL}/medicines?_page=${page}&_limit=${limit}`)
+    if (!res.ok) {
+      throw new Error('Failed to fetch medicines')
+    }
+    const medicines: Medicine[] = await res.json()
   
-  const totalCount =await fetchTotalMedicinesCount();
-  const totalPages = Math.ceil(totalCount / limit)
-  return { medicines, totalPages }
+    const totalCount = await fetchTotalMedicinesCount();
+    const totalPages = Math.ceil(totalCount / limit)
+    return { medicines, totalPages }
+  }catch{
+    return { medicines: [], totalPages: 0 }
+  }
+
 }
 
 export async function fetchTotalMedicinesCount(): Promise<number> {
-  const res = await fetch(`${API_BASE_URL}/medicines`)
-  if (!res.ok) {
-    throw new Error('Failed to fetch medicines count')
+  try {
+    const res = await fetch(`${API_BASE_URL}/medicines`)
+    if (!res.ok) {
+      throw new Error('Failed to fetch medicines count')
+    }
+    const allMedicines: Medicine[] = await res.json()
+    return allMedicines.length
+  } catch {
+    return 0
   }
-  const allMedicines: Medicine[] = await res.json()
-  return allMedicines.length
+
 }
