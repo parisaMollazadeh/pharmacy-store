@@ -13,7 +13,11 @@ export default function CartPage(): ReactElement {
     I included them here just as a precaution for performance-critical parts.
   */
 
-    const totalPrice = useMemo(() => getTotalPrice(), [getTotalPrice, items]);
+
+    const totalPrice = useMemo(() => getTotalPrice(), [getTotalPrice]);
+
+
+
     const itemCount = useMemo(() => items.length, [items]);
 
     const handleContinueShopping = useCallback(() => {

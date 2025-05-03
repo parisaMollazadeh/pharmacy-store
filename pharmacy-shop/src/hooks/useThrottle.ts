@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-type VoidFunction = (...args: any[]) => void;
+type VoidFunction<T extends unknown[] = unknown[]> = (...args: T) => void;
 
 
 function useThrottle<T extends VoidFunction>(callback: T, delay: number): T {

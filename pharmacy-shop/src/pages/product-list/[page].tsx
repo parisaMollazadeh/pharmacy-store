@@ -2,20 +2,14 @@ import { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from '
 import AppLayout from '@/layouts/AppLayout'
 import { useCart } from '@/context/CartContext'
 import Pagination from '@/components/Pagination'
-import { Medicine } from '@/types/medicine'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { ReactElement, useCallback } from 'react'
 import { fetchMedicinesPage, fetchTotalMedicinesCount } from '@/api/medicines'
 import ProductList from './components/ProductList'
 
-interface PageProps {
-  medicines: Medicine[]
-  currentPage: number
-  totalPages: number
-}
-
 const ITEMS_PER_PAGE = 4
+
 const ProductListPage = ({ medicines, currentPage, totalPages }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   const { addToCart } = useCart()
@@ -71,7 +65,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       paths,
       fallback: 'blocking',
     }
-  } catch (error) {
+  } catch  {
     return { paths: [], fallback: 'blocking' }
   }
 }

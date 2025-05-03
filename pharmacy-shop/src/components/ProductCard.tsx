@@ -9,8 +9,14 @@ interface Props {
 }
 
 export default function ProductCard({ medicine, onAdd }: Props) {
-  
-  const throttledOnAdd = onAdd ? useThrottle(onAdd, 2000) : undefined
+
+  const throttledAdd = useThrottle(() => {
+    if (onAdd) onAdd(medicine);
+  }, 2000);
+
+  const handleAdd = () => {
+    throttledAdd();
+  };
 
   return (
     <div className="flex items-center justify-between p-2 bg-white rounded-xl shadow-sm border border-gray-400 h-24">
@@ -30,7 +36,7 @@ export default function ProductCard({ medicine, onAdd }: Props) {
 
       {onAdd && (
         <button
-          onClick={() => throttledOnAdd && throttledOnAdd(medicine)}
+          onClick={handleAdd}
           className="text-[12px] text-purple-700 flex items-end font-extrabold whitespace-nowrap h-full pb-2"
         >
           +افزودن
