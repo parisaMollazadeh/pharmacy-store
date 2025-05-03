@@ -15,6 +15,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<Medicine[]>([])
 
   const addToCart = (item: Medicine) => {
+    
     if (!items.find((m) => m.id === item.id)) {
       setItems([...items, item])
     }
