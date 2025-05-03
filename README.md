@@ -71,7 +71,7 @@ Make sure `X-Total-Count` is included in the response header.
 ## 🔄 Git Flow
 
 ### Main Branches:
-- `main`: production-ready code
+- `master`: production-ready code
 - `develop`: development base branch
 
 ### Feature Branch:
@@ -88,7 +88,7 @@ git checkout -b bugfix/your-bug-name
 
 ### Release:
 ```bash
-git checkout main
+git checkout master
 git merge develop
 git tag -a v1.0.0 -m "Initial release"
 ```
