@@ -1,66 +1,103 @@
-import { ReactElement } from 'react'
-import { useCart } from '@/context/CartContext'
-import ProductCard from '@/components/ProductCard'
-import { formatPrice } from '@/utils/price'
-import AppLayout from '@/layouts/AppLayout'
+import { ReactElement, useMemo, useCallback } from 'react';
+import { useCart } from '@/context/CartContext';
+import ProductCard from '@/components/ProductCard';
+import { formatPrice } from '@/utils/price';
+import AppLayout from '@/layouts/AppLayout';
 
-export default function CartPage() {
-  const { items, clearCart, getTotalPrice } = useCart()
+export default function CartPage(): ReactElement {
+  const { items, clearCart, getTotalPrice } = useCart();
+
+  /*
+  In React 19, the new compiler and internal optimizations handle most memoization, so `useMemo` and `useCallback` are rarely.
+  I included them here just as a precaution for performance-critical parts.
+*/
+
+  const totalPrice = useMemo(() => getTotalPrice(), [getTotalPrice, items]);
+  const itemCount = useMemo(() => items.length, [items]);
+
+  const handleContinueShopping = useCallback(() => {
+    alert('ادامه خرید هنوز پیاده‌سازی نشده است.');
+  }, []);
 
   return (
-    <div>
-      <span className="text-sm font-semibold my-4 text-gray-500">سبد خرید</span>
+    <section className="px-4 py-6 max-w-4xl mx-auto">
+      <h1 className="text-lg font-semibold text-gray-700 mb-4">سبد خرید</h1>
 
-      <div className='mt-4'>
-        {items.length === 0 ? (
-          <p className="text-center text-gray-500">سبد خرید شما خالی است.</p>
-        ) : (
-          <>
-            <div className="flex flex-col gap-4">
-              {items.map((item) => (
-                <ProductCard key={item.id} medicine={item} />
-              ))}
-            </div>
+      {itemCount === 0 ? (
+        <p className="text-center text-gray-500">سبد خرید شما خالی است.</p>
+      ) : (
+        <>
+          <ul className="flex flex-col gap-4" aria-label="لیست کالاهای سبد خرید">
+            {items.map((item) => (
+              <li key={item.id}>
+                <ProductCard medicine={item} />
+              </li>
+            ))}
+          </ul>
 
-            <div className="border-t border-gray-400 mt-4 pt-4 text-sm text-gray-700">
-              <div className="flex justify-between mb-2">
-                <span>تعداد کالا</span>
-                <span>{items.length} عدد</span>
-              </div>
-              <div className="flex justify-between">
-                <span>قیمت</span>
-                <span>{formatPrice(getTotalPrice())}</span>
-              </div>
-            </div>
+          <Summary itemCount={itemCount} totalPrice={totalPrice} />
 
-            <div className="flex justify-between gap-4 my-8">
+          <Actions
+            onContinueShopping={handleContinueShopping}
+            onClearCart={clearCart}
+          />
+        </>
+      )}
+    </section>
+  );
+}
 
-              <button
-                className="w-1/2 bg-purple-700  text-white py-3 rounded-xl text-sm shadow-md font-extrabold text-center"
-                aria-label="ادامه خرید"
-                type="button"
-                onClick={()=> alert('not implement')}
-              >
-                ادامه خرید
-              </button>
-
-              <button
-                onClick={clearCart}
-                className="w-1/2 border border-black text-black py-2 rounded-xl text-sm hover:bg-gray-100 transition"
-                aria-label="حذف کل سبد خرید"
-                type="button"
-              >
-                حذف سبد
-              </button>
-            </div>
-          </>
-        )}
+function Summary({
+  itemCount,
+  totalPrice,
+}: {
+  itemCount: number;
+  totalPrice: number;
+}): ReactElement {
+  return (
+    <div className="border-t border-gray-400 mt-6 pt-4 text-sm text-gray-700">
+      <div className="flex justify-between mb-2">
+        <span>تعداد کالا</span>
+        <span>{itemCount} عدد</span>
       </div>
-
+      <div className="flex justify-between font-bold">
+        <span>قیمت کل</span>
+        <span>{formatPrice(totalPrice)}</span>
+      </div>
     </div>
-  )
+  );
 }
 
-CartPage.getLayout = function getLayout(page: ReactElement) {
-  return <AppLayout headerMode="back">{page}</AppLayout>
+function Actions({
+  onContinueShopping,
+  onClearCart,
+}: {
+  onContinueShopping: () => void;
+  onClearCart: () => void;
+}): ReactElement {
+  return (
+    <div className="flex justify-between gap-4 mt-8">
+      <button
+        type="button"
+        onClick={onContinueShopping}
+        aria-label="ادامه خرید"
+        className="w-1/2 bg-purple-700 text-white py-3 rounded-xl text-sm shadow-md font-extrabold transition-colors hover:bg-purple-800"
+      >
+        ادامه خرید
+      </button>
+
+      <button
+        type="button"
+        onClick={onClearCart}
+        aria-label="حذف کل سبد خرید"
+        className="w-1/2 border border-black text-black py-3 rounded-xl text-sm hover:bg-gray-100 transition-colors"
+      >
+        حذف سبد
+      </button>
+    </div>
+  );
 }
+
+CartPage.getLayout = function getLayout(page: ReactElement): ReactElement {
+  return <AppLayout headerMode="back">{page}</AppLayout>;
+};
